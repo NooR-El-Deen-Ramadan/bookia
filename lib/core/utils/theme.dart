@@ -49,6 +49,16 @@ class AppTheme {
       dialBackgroundColor: AppColors.primaryColor,
       backgroundColor: AppColors.whiteColor,
     ),
+    //buttomNavigation bar decoration
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: AppColors.whiteColor,
+      showUnselectedLabels: false,
+      showSelectedLabels: false,
+      selectedItemColor: AppColors.primaryColor,
+
+     
+    ),
 
     //text buttom theme
     textButtonTheme: TextButtonThemeData(

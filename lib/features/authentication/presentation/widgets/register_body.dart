@@ -1,4 +1,4 @@
-import 'package:bookia/components/main_text_form_field.dart';
+import 'package:bookia/components/inputs/main_text_form_field.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/authentication/presentation/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
