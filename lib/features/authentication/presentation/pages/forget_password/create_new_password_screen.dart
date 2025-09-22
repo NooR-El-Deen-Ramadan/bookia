@@ -1,11 +1,12 @@
-import 'package:bookia/components/buttons/main_button.dart';
-import 'package:bookia/components/inputs/main_text_form_field.dart';
-import 'package:bookia/core/constants/icons.dart';
-import 'package:bookia/core/functions/navigation.dart';
+
+import 'package:bookia/core/components/app_bar/main_app_bar.dart';
+import 'package:bookia/core/components/buttons/main_button.dart';
+import 'package:bookia/core/components/inputs/main_text_form_field.dart';
+import 'package:bookia/core/routes/navigation.dart';
 import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Size;
 import 'package:gap/gap.dart';
 
 class CreateNewPasswordScreen extends StatefulWidget {
@@ -23,16 +24,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-        title: GestureDetector(
-          onTap: () {
-            pop(context);
-          },
-          child: Image.asset(AppIcons.backIconPng, width: 45, height: 45),
-        ),
-      ),
+      appBar: MainAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(22),
         child: SingleChildScrollView(

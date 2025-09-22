@@ -1,6 +1,6 @@
-import 'package:bookia/components/buttons/main_button.dart';
-import 'package:bookia/core/constants/icons.dart';
-import 'package:bookia/core/functions/navigation.dart';
+import 'package:bookia/core/components/app_bar/main_app_bar.dart';
+import 'package:bookia/core/components/buttons/main_button.dart';
+import 'package:bookia/core/routes/navigation.dart';
 import 'package:bookia/core/functions/show_dialoges.dart';
 import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/features/authentication/presentation/cubit/auth_cubit.dart';
@@ -26,16 +26,7 @@ class RegisterScreen extends StatelessWidget {
           text: "Already have an Acoount?",
         ),
       ),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-        title: GestureDetector(
-          onTap: () {
-            pop(context);
-          },
-          child: Image.asset(AppIcons.backIconPng, width: 45, height: 45),
-        ),
-      ),
+      appBar: MainAppBar(),
       body: BlocListener<AuthCubit, AuthStates>(
         listener: (context, state) {
           if (state is AuthSuccess) {

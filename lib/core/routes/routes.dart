@@ -5,6 +5,8 @@ import 'package:bookia/features/authentication/presentation/pages/forget_passwor
 import 'package:bookia/features/authentication/presentation/pages/forget_password/password_reset_success_screen.dart';
 import 'package:bookia/features/authentication/presentation/pages/login/login_screen.dart';
 import 'package:bookia/features/authentication/presentation/pages/register/register_screen.dart';
+import 'package:bookia/features/home/data/models/books_response/product.dart';
+import 'package:bookia/features/home/presentation/details_page/pages/book_details_screen.dart';
 import 'package:bookia/features/main/presentation/pages/main.dart';
 import 'package:bookia/features/splash/splash_screen.dart';
 import 'package:bookia/features/welcome/welcome_screen.dart';
@@ -21,6 +23,7 @@ class AppRouter {
   static const String changePassword = "/changePassword";
   static const String passwordResetSuccess = "/passwordResetSuccess";
   static const String main = "/main";
+  static const String bookDetails = "/bookDetails";
 
   static final routes = GoRouter(
     routes: [
@@ -54,6 +57,12 @@ class AppRouter {
         builder: (context, state) => PasswordResetSuccessScreen(),
       ),
       GoRoute(path: main, builder: (context, state) => MainScreen()),
+      GoRoute(
+        path: bookDetails,
+        builder: (context, state) {
+          return BookDetailsScreen(product: state.extra as Product);
+        },
+      ),
     ],
   );
 }

@@ -1,7 +1,7 @@
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
-import 'package:bookia/features/home/presentation/widgets/book_card.dart';
+import 'package:bookia/features/home/presentation/home_page/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
