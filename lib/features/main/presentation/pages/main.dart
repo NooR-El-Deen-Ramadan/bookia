@@ -17,13 +17,12 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: buttomNavBuilder(),
-      body:HomeScreen(),
+      body: HomeScreen(),
     );
   }
 
   BottomNavigationBar buttomNavBuilder() {
     return BottomNavigationBar(
-      
       items: [
         BottomNavigationBarItem(
           activeIcon: SvgPicture.asset(

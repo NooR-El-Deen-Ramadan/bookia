@@ -56,8 +56,6 @@ class AppTheme {
       showUnselectedLabels: false,
       showSelectedLabels: false,
       selectedItemColor: AppColors.primaryColor,
-
-     
     ),
 
     //text buttom theme

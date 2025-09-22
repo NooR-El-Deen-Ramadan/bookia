@@ -22,29 +22,38 @@ class AppRouter {
   static const String passwordResetSuccess = "/passwordResetSuccess";
   static const String main = "/main";
 
- static final routes = GoRouter(
-  routes: [
-    GoRoute(path: splash, builder: (context, state) => SplashScreen()),
-    GoRoute(path: welcome, builder: (context, state) => WelcomeScreen()),
-    GoRoute(
-      path: login,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(),
-        child: LoginScreen(),
+  static final routes = GoRouter(
+    routes: [
+      GoRoute(path: splash, builder: (context, state) => SplashScreen()),
+      GoRoute(path: welcome, builder: (context, state) => WelcomeScreen()),
+      GoRoute(
+        path: login,
+        builder: (context, state) => BlocProvider(
+          create: (context) => AuthCubit(),
+          child: LoginScreen(),
+        ),
       ),
-    ),
-    GoRoute(
-      path: register,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(),
-        child: RegisterScreen(),
+      GoRoute(
+        path: register,
+        builder: (context, state) => BlocProvider(
+          create: (context) => AuthCubit(),
+          child: RegisterScreen(),
+        ),
       ),
-    ),
-    GoRoute(path: forgetPassword, builder: (context, state) => ForgetPasswordScreen()),
-    GoRoute(path: otp, builder: (context, state) => OtpScreen()),
-    GoRoute(path: changePassword, builder: (context, state) => CreateNewPasswordScreen()),
-    GoRoute(path: passwordResetSuccess, builder: (context, state) => PasswordResetSuccessScreen()),
-    GoRoute(path: main, builder: (context, state) => MainScreen()),
-  ],
-);
+      GoRoute(
+        path: forgetPassword,
+        builder: (context, state) => ForgetPasswordScreen(),
+      ),
+      GoRoute(path: otp, builder: (context, state) => OtpScreen()),
+      GoRoute(
+        path: changePassword,
+        builder: (context, state) => CreateNewPasswordScreen(),
+      ),
+      GoRoute(
+        path: passwordResetSuccess,
+        builder: (context, state) => PasswordResetSuccessScreen(),
+      ),
+      GoRoute(path: main, builder: (context, state) => MainScreen()),
+    ],
+  );
 }

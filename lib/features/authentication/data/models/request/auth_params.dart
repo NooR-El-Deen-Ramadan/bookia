@@ -1,5 +1,5 @@
 class AuthParams {
-   String? name;
+  String? name;
   String? email;
   String? password;
   // ignore: non_constant_identifier_names

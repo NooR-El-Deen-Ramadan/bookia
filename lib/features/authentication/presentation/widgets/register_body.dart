@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class RegisterBody extends StatelessWidget {
-  const RegisterBody({
-    super.key,
-    required this.cubit,
-  });
+  const RegisterBody({super.key, required this.cubit});
 
   final AuthCubit cubit;
 
@@ -34,7 +31,7 @@ class RegisterBody extends StatelessWidget {
           ispassword: false,
         ),
         Gap(20),
-                      
+
         MainTextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {

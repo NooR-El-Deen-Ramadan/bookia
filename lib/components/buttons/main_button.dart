@@ -13,8 +13,10 @@ class MainButton extends StatelessWidget {
     this.buttomColor = AppColors.primaryColor,
     this.textColor = AppColors.whiteColor,
     this.borderColor,
+    this.borderRadius,
   });
   final Color buttomColor;
+  final double? borderRadius;
   final Color textColor;
   final Color? borderColor;
   final String buttonText;
@@ -30,9 +32,10 @@ class MainButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: buttomColor,
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
           shape: RoundedRectangleBorder(
             side: BorderSide(color: borderColor ?? Colors.transparent),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(borderRadius ?? 10),
           ),
         ),
         onPressed: onPressed,

@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 class DioProvider {
   static late Dio dio;
-  static Future<void> init()async {
+  static Future<void> init() async {
     dio = Dio(BaseOptions(baseUrl: ApiEndpoints.baseUrl));
   }
 

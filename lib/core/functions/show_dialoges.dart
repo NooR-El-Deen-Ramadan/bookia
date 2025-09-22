@@ -15,7 +15,6 @@ void showDialoges({required BuildContext context, required String message}) {
 
 void showLoadingDialog({required BuildContext context}) {
   showDialog(
-    
     barrierDismissible: true,
     context: context,
     builder: (context) {
