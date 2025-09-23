@@ -3,6 +3,8 @@ class ApiEndpoints {
   //auth
   static const login = "/login";
   static const register = "/register";
+  static const forgetPassword = "/forget-password";
+
 
   //home
   static const bestSellers = "/products-bestseller";

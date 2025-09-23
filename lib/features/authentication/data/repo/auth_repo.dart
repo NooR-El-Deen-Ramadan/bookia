@@ -37,6 +37,33 @@ class AuthRepo {
   static Future<AuthResponse?> register(AuthParams params) async {
     try {
       var res = await DioProvider.post(
+        endPoint: ApiEndpoints.forgetPassword,
+        data: params.toJson(),
+      );
+      if (res.statusCode == 200) {
+        //success and return data
+        var data = AuthResponse.fromJson(res.data);
+
+        return data;
+      } else {
+        //error
+        log("forget Password link failed: ${res.statusCode} ${res.data}");
+
+        return null;
+      }
+    } on DioException catch (e) {
+      log('Status: ${e.response?.statusCode}');
+      log('Error body: ${e.response?.data}');
+      return null;
+    } on Exception catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  static Future<AuthResponse?> forgetPassword(AuthParams params) async {
+    try {
+      var res = await DioProvider.post(
         endPoint: ApiEndpoints.register,
         data: params.toJson(),
       );

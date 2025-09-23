@@ -48,4 +48,18 @@ class AuthCubit extends Cubit<AuthStates> {
       emit(AuthError(error: "Regestration Failed"));
     }
   }
+
+  forgetPassword() async {
+    emit(AuthLoading());
+
+    //regestrition Api call
+    var response = await AuthRepo.forgetPassword(
+      AuthParams(email: emailController.text),
+    );
+    if (response != null) {
+      emit(AuthSuccess());
+    } else {
+      emit(AuthError(error: "Regestration Failed"));
+    }
+  }
 }
