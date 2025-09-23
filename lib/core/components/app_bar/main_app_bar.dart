@@ -11,7 +11,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       centerTitle: false,
-      actions: [actionWidget??SizedBox()],
+      actions: [Padding(
+        padding: const EdgeInsets.all(10),
+        child: actionWidget ?? SizedBox(),
+      )],
       title: GestureDetector(
         onTap: () {
           pop(context);

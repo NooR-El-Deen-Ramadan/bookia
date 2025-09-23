@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 class NewArrivalsBuilder extends StatelessWidget {
   const NewArrivalsBuilder({super.key, required this.newArrivals});
   final List<Product> newArrivals;
+  final String source = "newArrivals";
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,7 +40,7 @@ class NewArrivalsBuilder extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return BookCard(product: newArrivals[index]);
+              return BookCard(product: newArrivals[index], source: source);
             },
             separatorBuilder: (context, index) {
               return Gap(10);

@@ -60,7 +60,11 @@ class AppRouter {
       GoRoute(
         path: bookDetails,
         builder: (context, state) {
-          return BookDetailsScreen(product: state.extra as Product);
+          var args=state.extra as Map<String, dynamic>;
+          return BookDetailsScreen(
+            product: args["data"] as Product,
+            source: args["source"] as String,
+          );
         },
       ),
     ],

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class AllBooksBuilder extends StatelessWidget {
-  const AllBooksBuilder({super.key, required this.allProducts});
+  const AllBooksBuilder({super.key, required this.allProducts });
   final List<Product> allProducts;
+  final String source="allBooks";
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,7 +30,7 @@ class AllBooksBuilder extends StatelessWidget {
           itemCount: 10,
 
           itemBuilder: (BuildContext context, int index) {
-            return BookCard(product: allProducts[index]);
+            return BookCard(product: allProducts[index], source: source);
           },
         ),
       ],

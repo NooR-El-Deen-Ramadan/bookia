@@ -4,16 +4,23 @@ import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
+import 'package:bookia/features/home/presentation/home_page/widgets/card_trailing.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
-  const BookCard({super.key, required this.product});
+  const BookCard({super.key, required this.product, required this.source});
   final Product product;
+  final String source;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        pushWithoutReplacment(context: context, route: AppRouter.bookDetails,extra: product);
+        pushWithoutReplacment(
+          context: context,
+          route: AppRouter.bookDetails,
+          extra: {"data": product, "source": source},
+        );
       },
       child: Container(
         width: 180,
@@ -28,12 +35,15 @@ class BookCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    product.image ?? " ",
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+                child: Hero(
+                  tag: "${product.id}-$source",
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl: product.image ?? " ",
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
                   ),
                 ),
               ),
@@ -49,28 +59,7 @@ class BookCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "\$ ${product.price}",
-                      style: AppFontStyles.getSize12(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        fontColor: AppColors.darkColor,
-                      ),
-                    ),
-                  ),
-      
-                  MainButton(
-                    borderRadius: 4,
-                    width: 70,
-                    height: 30,
-                    buttonText: "Buy",
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+              CardTrailing(product: product),
             ],
           ),
         ),
