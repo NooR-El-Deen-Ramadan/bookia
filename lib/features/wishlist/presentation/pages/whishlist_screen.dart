@@ -1,14 +1,16 @@
 import 'package:bookia/core/components/buttons/main_button.dart';
+import 'package:bookia/core/constants/animation.dart';
 import 'package:bookia/core/constants/icons.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
-import 'package:bookia/features/wishlist/presentation/cubit/wishlist_cubut.dart';
+import 'package:bookia/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:bookia/features/wishlist/presentation/cubit/wishlist_states.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class WishlistScreen extends StatelessWidget {
   const WishlistScreen({super.key});
@@ -27,8 +29,34 @@ class WishlistScreen extends StatelessWidget {
         body: BlocBuilder<WishlistCubit, WishlistStates>(
           builder: (context, state) {
             var cubit = context.read<WishlistCubit>();
-            if (state is! WishlistSuccessState) {
+            if (state is! WishlistSuccessState &&
+                state is! EmptyWishlistState) {
               return Center(child: CircularProgressIndicator());
+            } else if (state is EmptyWishlistState) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                   
+                    Text(
+                      "No Items In Wishlist",
+                      style: AppFontStyles.getSize24(),
+                    ),
+
+                    Gap(30),
+                    Lottie.asset(
+                      AppAnimation.emptyWishlistAnimation,
+                      height: 250,
+                      repeat: true,
+                    ),
+                    Gap(50),
+                    Text(
+                      "Try Adding Some Books!",
+                      style: AppFontStyles.getSize24(),
+                    ),
+                  ],
+                ),
+              );
             }
             return ListView.separated(
               itemBuilder: (context, index) => Padding(
@@ -75,7 +103,8 @@ class WishlistScreen extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                 "${cubit.wishlistItems[index].price}" " \$",
+                                  "${cubit.wishlistItems[index].price}"
+                                  " \$",
                                   style: AppFontStyles.getSize18(
                                     fontColor: AppColors.primaryColor,
                                   ),

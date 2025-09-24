@@ -10,11 +10,21 @@ class WishlistCubit extends Cubit<WishlistStates> {
   Future<void> getWishlist() async {
     emit(WishlistLoadingState());
     var res = await WishlistRepo.getWishlist();
-    if (res != null) {
-      wishlistItems = res.data?.data ?? [];
-      emit(WishlistSuccessState());
-    } else {
+
+    // if API call failed:
+    if (res == null) {
       emit(WishlistErrorState(errorMessage: "Failed to load wishlist"));
+      return;
+    }
+
+    // if data is empty:
+    final items = res.data?.data ?? [];
+    if (items.isEmpty) {
+      wishlistItems = [];
+      emit(EmptyWishlistState());
+    } else {
+      wishlistItems = items;
+      emit(WishlistSuccessState());
     }
   }
 
