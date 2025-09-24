@@ -27,8 +27,10 @@ class HomeCubit extends Cubit<HomeStates> {
       bestSellers = (results[1] as BooksResponse).data?.products ?? [];
       newArrivals = (results[2] as BooksResponse).data?.products ?? [];
       allProducts = (results[3] as BooksResponse).data?.products ?? [];
-
-      emit(HomeSuccessState());
+      if (!isClosed) {
+        // ✅ prevent emit on closed bloc
+        emit(HomeSuccessState());
+      }
     } catch (e) {
       emit(HomeErrorState(error: e.toString()));
     }

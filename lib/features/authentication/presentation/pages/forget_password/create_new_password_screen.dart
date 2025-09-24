@@ -1,4 +1,3 @@
-
 import 'package:bookia/core/components/app_bar/main_app_bar.dart';
 import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/components/inputs/main_text_form_field.dart';

@@ -7,7 +7,7 @@ import 'package:bookia/features/authentication/presentation/pages/login/login_sc
 import 'package:bookia/features/authentication/presentation/pages/register/register_screen.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
 import 'package:bookia/features/home/presentation/details_page/pages/book_details_screen.dart';
-import 'package:bookia/features/main/presentation/pages/main.dart';
+import 'package:bookia/features/main/presentation/pages/main_screen.dart';
 import 'package:bookia/features/splash/splash_screen.dart';
 import 'package:bookia/features/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +60,7 @@ class AppRouter {
       GoRoute(
         path: bookDetails,
         builder: (context, state) {
-          var args=state.extra as Map<String, dynamic>;
+          var args = state.extra as Map<String, dynamic>;
           return BookDetailsScreen(
             product: args["data"] as Product,
             source: args["source"] as String,

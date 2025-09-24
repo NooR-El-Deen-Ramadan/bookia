@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class AllBooksBuilder extends StatelessWidget {
-  const AllBooksBuilder({super.key, required this.allProducts });
+  const AllBooksBuilder({super.key, required this.allProducts});
   final List<Product> allProducts;
-  final String source="allBooks";
+  final String source = "allBooks";
   @override
   Widget build(BuildContext context) {
     return Column(

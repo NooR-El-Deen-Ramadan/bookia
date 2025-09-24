@@ -5,10 +5,7 @@ import 'package:bookia/features/home/data/models/books_response/product.dart';
 import 'package:flutter/material.dart';
 
 class CardTrailing extends StatelessWidget {
-  const CardTrailing({
-    super.key,
-    required this.product,
-  });
+  const CardTrailing({super.key, required this.product});
 
   final Product product;
 
@@ -28,7 +25,7 @@ class CardTrailing extends StatelessWidget {
                 ),
               ),
             ),
-        
+
             MainButton(
               borderRadius: 4,
               width: 70,

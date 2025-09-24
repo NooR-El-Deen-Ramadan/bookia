@@ -1,4 +1,3 @@
-import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/routes/navigation.dart';
 import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/utils/colors.dart';

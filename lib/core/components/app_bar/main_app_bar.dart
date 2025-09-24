@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:bookia/core/constants/icons.dart';
 import 'package:bookia/core/routes/navigation.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +10,12 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       centerTitle: false,
-      actions: [Padding(
-        padding: const EdgeInsets.all(10),
-        child: actionWidget ?? SizedBox(),
-      )],
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: actionWidget ?? SizedBox(),
+        ),
+      ],
       title: GestureDetector(
         onTap: () {
           pop(context);

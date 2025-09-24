@@ -51,9 +51,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             if (state is AuthSuccess) {
               pushWithReplacment(context: context, route: AppRouter.otp);
             } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.error)));
             }
           },
           child: Padding(
@@ -78,13 +78,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     ispassword: false,
                   ),
                   Gap(30),
-                
+
                   //add visibilty icon
                   MainButton(
                     height: 60,
                     buttonText: "Send Code",
                     onPressed: () {
-                      pushWithReplacment(context: context, route: AppRouter.otp);
+                      pushWithReplacment(
+                        context: context,
+                        route: AppRouter.otp,
+                      );
                     },
                   ),
                 ],

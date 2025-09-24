@@ -1,0 +1,40 @@
+import 'package:bookia/features/home/data/models/books_response/product.dart';
+import 'package:bookia/features/wishlist/data/repo/whishlist_repo.dart';
+import 'package:bookia/features/wishlist/presentation/cubit/wishlist_states.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class WishlistCubit extends Cubit<WishlistStates> {
+  WishlistCubit() : super(WishlistInitialState());
+
+  List<Product> wishlistItems = [];
+  Future<void> getWishlist() async {
+    emit(WishlistLoadingState());
+    var res = await WishlistRepo.getWishlist();
+    if (res != null) {
+      wishlistItems = res.data?.data ?? [];
+      emit(WishlistSuccessState());
+    } else {
+      emit(WishlistErrorState(errorMessage: "Failed to load wishlist"));
+    }
+  }
+
+  Future<void> addToWishlist(int bookId) async {
+    emit(WishlistLoadingState());
+    var res = await WishlistRepo.addToWishlist(bookId: bookId);
+    if (res != null) {
+      emit(WishlistSuccessState());
+    } else {
+      emit(WishlistErrorState(errorMessage: "Failed to add to wishlist"));
+    }
+  }
+
+  Future<void> removeFromWishlist(int bookId) async {
+    emit(WishlistLoadingState());
+    var res = await WishlistRepo.removeFromWishlist(bookId: bookId);
+    if (res != null) {
+      emit(WishlistLoadingState());
+    } else {
+      emit(WishlistErrorState(errorMessage: "Failed to remove from wishlist"));
+    }
+  }
+}

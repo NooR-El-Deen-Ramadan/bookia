@@ -19,14 +19,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 2), () {
-      LocalHelper.getUserdate().then((value) {
-        if (value != null) {
-          pushAndRemoveUntil(context: context, route: AppRouter.main);
-        } else {
-          pushWithReplacment(context: context, route: AppRouter.welcome);
-        }
-      });
+      var userData = LocalHelper.getUserdata();
+      if (userData != null) {
+        // ignore: use_build_context_synchronously
+        pushAndRemoveUntil(context: context, route: AppRouter.main);
+      } else {
+        // ignore: use_build_context_synchronously
+        pushWithReplacment(context: context, route: AppRouter.welcome);
+      }
     });
+    
     super.initState();
   }
 

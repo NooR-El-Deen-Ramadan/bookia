@@ -20,7 +20,7 @@ class LocalHelper {
     pref.setString(userDataKey, userObjectJsonString);
   }
 
-  static getUserdate() async {
+  static getUserdata() async {
     //get string from shared pref
     var userObjectJsonString = pref.getString(userDataKey);
     //decode string to map
