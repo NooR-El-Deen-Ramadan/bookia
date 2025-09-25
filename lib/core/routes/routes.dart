@@ -6,6 +6,7 @@ import 'package:bookia/features/authentication/presentation/pages/forget_passwor
 import 'package:bookia/features/authentication/presentation/pages/login/login_screen.dart';
 import 'package:bookia/features/authentication/presentation/pages/register/register_screen.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
+import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/details_page/pages/book_details_screen.dart';
 import 'package:bookia/features/main/presentation/pages/main_screen.dart';
 import 'package:bookia/features/splash/splash_screen.dart';
@@ -61,9 +62,12 @@ class AppRouter {
         path: bookDetails,
         builder: (context, state) {
           var args = state.extra as Map<String, dynamic>;
-          return BookDetailsScreen(
-            product: args["data"] as Product,
-            source: args["source"] as String,
+          return BlocProvider(
+            create: (context) => HomeCubit(),
+            child: BookDetailsScreen(
+              product: args["data"] as Product,
+              source: args["source"] as String,
+            ),
           );
         },
       ),

@@ -93,7 +93,11 @@ class WishlistScreen extends StatelessWidget {
                               ),
 
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  cubit.removeFromWishlist(
+                                    bookId: cubit.wishlistItems[index].id ?? 0,
+                                  );
+                                },
                                 icon: SvgPicture.asset(AppIcons.deleteIconSvg),
                               ),
                             ],

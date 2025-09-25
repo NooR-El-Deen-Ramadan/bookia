@@ -40,7 +40,6 @@ class HomeCubit extends Cubit<HomeStates> {
   Future<void> addToWishlist(int bookId) async {
     emit(HomeLoadingState());
     var res = await WishlistRepo.addToWishlist(bookId: bookId);
-
     if (res != null) {
       emit(HomeSuccessState());
     } else {

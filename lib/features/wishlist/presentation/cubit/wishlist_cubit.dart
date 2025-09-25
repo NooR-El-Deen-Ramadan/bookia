@@ -28,23 +28,20 @@ class WishlistCubit extends Cubit<WishlistStates> {
     }
   }
 
-  Future<void> addToWishlist(int bookId) async {
-    emit(WishlistLoadingState());
-    var res = await WishlistRepo.addToWishlist(bookId: bookId);
-    if (res != null) {
-      emit(WishlistSuccessState());
-    } else {
-      emit(WishlistErrorState(errorMessage: "Failed to add to wishlist"));
-    }
-  }
-
-  Future<void> removeFromWishlist(int bookId) async {
+  Future<void> removeFromWishlist( {required int bookId}) async {
     emit(WishlistLoadingState());
     var res = await WishlistRepo.removeFromWishlist(bookId: bookId);
-    if (res != null) {
-      emit(WishlistLoadingState());
+    if (res == null) {
+      emit(WishlistErrorState(errorMessage: "Failed to load wishlist"));
+      return;
+    }
+    final items = res.data?.data ?? [];
+    if (items.isEmpty) {
+      wishlistItems = [];
+      emit(EmptyWishlistState());
     } else {
-      emit(WishlistErrorState(errorMessage: "Failed to remove from wishlist"));
+      wishlistItems = items;
+      emit(WishlistSuccessState());
     }
   }
 }

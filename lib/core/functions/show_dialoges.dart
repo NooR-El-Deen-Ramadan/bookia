@@ -1,12 +1,34 @@
 import 'package:bookia/core/constants/animation.dart';
+import 'package:bookia/core/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-void showDialoges({required BuildContext context, required String message}) {
+enum DialogTypes { error, success, warning }
+
+void showDialoges({
+  required BuildContext context,
+  required String message,
+  DialogTypes type = DialogTypes.error,
+}) {
+  Color backgroundColor;
+
+  switch (type) {
+    case DialogTypes.success:
+      backgroundColor = Colors.green;
+      break;
+    case DialogTypes.warning:
+      backgroundColor = Colors.orange;
+      break;
+    case DialogTypes.error:
+      backgroundColor = Colors.red;
+      break;
+      
+      }
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.red,
+      backgroundColor: backgroundColor,
       margin: EdgeInsets.all(20),
       content: Text(message),
     ),

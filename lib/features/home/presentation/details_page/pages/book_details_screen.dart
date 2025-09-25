@@ -1,10 +1,12 @@
 import 'package:bookia/core/components/app_bar/main_app_bar.dart';
 import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/constants/icons.dart';
+import 'package:bookia/core/functions/show_dialoges.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
+import 'package:bookia/features/home/presentation/cubit/home_states.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,8 +23,33 @@ class BookDetailsScreen extends StatelessWidget {
   final String source;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>HomeCubit(),
+    return BlocListener<HomeCubit, HomeStates>(
+      listener: (context, state) => {
+        if (state is HomeLoadingState)
+          {showLoadingDialog(context: context)}
+        else if (state is AddToWishlistSuccessState)
+          {
+            // dismiss loading first
+            Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pop(), // ensures dialog is closed
+            showDialoges(
+              context: context,
+              message: "Book added to wishlist successfully",
+              type: DialogTypes.success,
+            ),
+          }
+        else if (state is HomeErrorState)
+          {
+            Navigator.of(context, rootNavigator: true).pop(),
+            showDialoges(
+              context: context,
+              type: DialogTypes.error,
+              message: "can't add book to wishlist",
+            ),
+          },
+      },
       child: Scaffold(
         bottomNavigationBar: SafeArea(
           child: Padding(
@@ -34,16 +61,16 @@ class BookDetailsScreen extends StatelessWidget {
                     "\$ ${product.price}",
                     style: AppFontStyles.getSize24(
                       fontWeight: FontWeight.w500,
-      
+
                       fontColor: AppColors.darkColor,
                     ),
                   ),
                 ),
-      
+
                 Expanded(
                   child: MainButton(
                     borderRadius: 8,
-      
+
                     height: 50,
                     buttonText: "Add To Cart",
                     onPressed: () {},
@@ -55,7 +82,9 @@ class BookDetailsScreen extends StatelessWidget {
         ),
         appBar: MainAppBar(
           actionWidget: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context.read<HomeCubit>().addToWishlist(product.id ?? 0);
+            },
             child: SvgPicture.asset(AppIcons.bookmarkIconSvg),
           ),
         ),
