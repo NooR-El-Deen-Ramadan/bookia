@@ -1,4 +1,7 @@
+import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/constants/animation.dart';
+import 'package:bookia/core/routes/navigation.dart';
+import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/cart/presentation/cubit/cart_cubit.dart';
@@ -18,6 +21,50 @@ class CartScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => CartCubit()..getCart(),
       child: Scaffold(
+        bottomNavigationBar: BlocBuilder<CartCubit, CartStates>(
+          builder: (context, state) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Total",
+                        style: AppFontStyles.getSize18(
+                          fontColor: AppColors.darkColor,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        "\$ ${context.read<CartCubit>().cartResponse?.data?.total}",
+                        style: AppFontStyles.getSize18(
+                          fontColor: AppColors.darkColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Gap(10),
+                  MainButton(
+                    buttonText: "Checkout",
+                    onPressed: () {
+                      pushWithoutReplacment(
+                        context: context,
+                        extra: context
+                            .read<CartCubit>()
+                            .cartResponse
+                            ?.data
+                            ?.total,
+                        route: AppRouter.placeOrder,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         appBar: AppBar(
           title: Text(
             "Cart",
@@ -27,7 +74,7 @@ class CartScreen extends StatelessWidget {
         body: BlocBuilder<CartCubit, CartStates>(
           builder: (context, state) {
             var cubit = context.read<CartCubit>();
-            var books = cubit.cartResponse?.data?.cartItems??[];
+            var books = cubit.cartResponse?.data?.cartItems ?? [];
             if (state is! CartSuccessState) {
               return Center(child: CircularProgressIndicator());
             }
@@ -54,11 +101,20 @@ class CartScreen extends StatelessWidget {
               );
             }
             return ListView.separated(
-              itemBuilder: (context, index) => CartCard(onDelete: () {
-                cubit.removeFromCart(cartItemId: books[index].itemId??0);
-              },product: books[index],),
+              itemBuilder: (context, index) => CartCard(
+                onUpdate: (newQuantity) {
+                  cubit.updateCart(
+                    cartItemId: books[index].itemId ?? 0,
+                    quantity: newQuantity,
+                  );
+                },
+                onDelete: () {
+                  cubit.removeFromCart(cartItemId: books[index].itemId ?? 0);
+                },
+                product: books[index],
+              ),
               separatorBuilder: (context, index) => Divider(),
-              itemCount: books.length ,
+              itemCount: books.length,
             );
           },
         ),

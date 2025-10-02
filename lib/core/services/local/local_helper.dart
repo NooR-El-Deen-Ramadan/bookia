@@ -24,18 +24,18 @@ class LocalHelper {
     pref.setString(userDataKey, userObjectJsonString);
   }
 
-  static getUserdata() async {
-    //get string from shared pref
-    var userObjectJsonString = pref.getString(userDataKey);
-    //decode string to map
-    if (userObjectJsonString == null) {
-      return null;
-    }
-    var userObjectJson = jsonDecode(userObjectJsonString);
-    //parse map to object
-    var userData = UserData.fromJson(userObjectJson);
-    return userData;
+  static Future<UserData?> getUserdata() async {
+  //get string from shared pref
+  var userObjectJsonString = pref.getString(userDataKey);
+  //decode string to map
+  if (userObjectJsonString == null) {
+    return null;
   }
+  var userObjectJson = jsonDecode(userObjectJsonString);
+  //parse map to object
+  var userData = UserData.fromJson(userObjectJson);
+  return userData;
+}
 
   //wishList
   static setWishlist(List<Product>? books) async {

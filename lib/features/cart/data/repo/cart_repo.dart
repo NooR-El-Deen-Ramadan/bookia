@@ -9,16 +9,16 @@ import 'package:dio/dio.dart';
 class CartRepo {
   static Future<CartResponse?> addToCart({required int bookId}) async {
     try {
-      final userData = await LocalHelper.getUserdata();
+      var userData = await LocalHelper.getUserdata();
       var res = await DioProvider.post(
-        headers: {"Authorization": "Bearer ${userData.token}"},
+        headers: {"Authorization": "Bearer ${userData?.token}"},
         endPoint: ApiEndpoints.addToCart,
         data: {"product_id": bookId},
       );
 
-      if (res.statusCode == 200) {
+      if (res.statusCode == 201) {
         var data = CartResponse.fromJson(res.data);
-        LocalHelper.setCart(data.data?.cartItems);
+        //LocalHelper.setCart(data.data?.cartItems);
         return data;
       } else {
         return null;
@@ -34,7 +34,7 @@ class CartRepo {
     try {
       final userData = await LocalHelper.getUserdata();
       var res = await DioProvider.post(
-        headers: {"Authorization": "Bearer ${userData.token}"},
+        headers: {"Authorization": "Bearer ${userData?.token}"},
         endPoint: ApiEndpoints.removeFromCart,
         data: {"cart_item_id": cartItemId},
       );
@@ -52,16 +52,40 @@ class CartRepo {
     }
   }
 
-  static Future<CartResponse?> getCart() async {
+
+ static Future<CartResponse?> updateCart({required int cartItemId, required int quantity}) async {
     try {
       final userData = await LocalHelper.getUserdata();
-      var res = await DioProvider.get(
-        headers: {"Authorization": "Bearer ${userData.token}"},
-        endPoint: ApiEndpoints.cart,
+      var res = await DioProvider.post(
+        headers: {"Authorization": "Bearer ${userData?.token}"},
+        endPoint: ApiEndpoints.updateCart,
+        data: {"cart_item_id": cartItemId,"quantity":quantity},
       );
 
       if (res.statusCode == 201) {
-        log(userData.token);
+        var data = CartResponse.fromJson(res.data);
+        LocalHelper.setCart(data.data?.cartItems);
+        return data;
+      } else {
+        return null;
+      }
+    } on Exception catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+
+  static Future<CartResponse?> getCart() async {
+    try {
+      var userData = await LocalHelper.getUserdata();
+      var res = await DioProvider.get(
+        headers: {"Authorization": "Bearer ${userData?.token}"},
+        endPoint: ApiEndpoints.cart,
+      );
+
+      if (res.statusCode == 200) {
+       
         var data = CartResponse.fromJson(res.data);
         // LocalHelper.setCart(data.data?.data);
         return data;

@@ -1,5 +1,5 @@
-import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/constants/icons.dart';
+import 'package:bookia/core/functions/show_dialoges.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/cart/data/models/cart_response/cart_item.dart';
@@ -9,10 +9,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 class CartCard extends StatelessWidget {
-  const CartCard({super.key, this.product, required this.onDelete});
+  const CartCard({
+    super.key,
+    this.product,
+    required this.onDelete,
+    required this.onUpdate,
+  });
 
   final CartItem? product;
   final Function() onDelete;
+  final Function(int quantity) onUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -58,20 +64,72 @@ class CartCard extends StatelessWidget {
                 Gap(20),
                 Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        "${product?.itemProductPrice}  \$",
-                        style: AppFontStyles.getSize18(
-                          fontColor: AppColors.primaryColor,
+                    GestureDetector(
+                      onTap: () {
+                        if ((product?.itemQuantity ?? 1) <
+                            (product?.itemProductStock ?? 1)) {
+                          onUpdate(product?.itemQuantity ?? 1 + 1);
+                        } else {
+                          showDialoges(
+                            context: context,
+                            message:
+                                "Maximaum quantitity is ${product?.itemProductStock ?? 1}",
+                            type: DialogTypes.warning,
+                          );
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: AppColors.greyColor.withValues(alpha: 0.2),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(Icons.add, color: AppColors.darkColor),
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: MainButton(
-                        borderRadius: 4,
-                        buttonText: "Add To Cart",
-                        onPressed: () {},
-                        height: 40,
+                    Gap(10),
+                    SizedBox(
+                      width: 20,
+                      child: Text(
+                        "${product?.itemQuantity ?? 0}",
+                        style: AppFontStyles.getSize18(
+                          fontColor: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Gap(10),
+                    GestureDetector(
+                      onTap: () {
+                        if ((product?.itemQuantity ?? 1) > 1) {
+                          onUpdate(product?.itemQuantity ?? 1 - 1);
+                        } else {
+                          showDialoges(
+                            type: DialogTypes.warning,
+                            context: context,
+                            message: "Quantity can't be less than 1",
+                          );
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: AppColors.greyColor.withValues(alpha: 0.2),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Icon(Icons.remove, color: AppColors.darkColor),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      "Total: ${((product?.itemProductPriceAfterDiscount ?? 0) * (product?.itemQuantity ?? 0)).toStringAsFixed(2)} \$",
+                      style: AppFontStyles.getSize18(
+                        fontColor: AppColors.primaryColor,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],

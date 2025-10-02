@@ -5,6 +5,9 @@ import 'package:bookia/features/authentication/presentation/pages/forget_passwor
 import 'package:bookia/features/authentication/presentation/pages/forget_password/password_reset_success_screen.dart';
 import 'package:bookia/features/authentication/presentation/pages/login/login_screen.dart';
 import 'package:bookia/features/authentication/presentation/pages/register/register_screen.dart';
+import 'package:bookia/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:bookia/features/cart/presentation/pages/place_order_screen.dart';
+import 'package:bookia/features/cart/presentation/pages/success_screen.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/details_page/pages/book_details_screen.dart';
@@ -25,6 +28,8 @@ class AppRouter {
   static const String passwordResetSuccess = "/passwordResetSuccess";
   static const String main = "/main";
   static const String bookDetails = "/bookDetails";
+  static const String placeOrder = "/placeOrder";
+  static const String success = "/success";
 
   static final routes = GoRouter(
     routes: [
@@ -70,6 +75,21 @@ class AppRouter {
             ),
           );
         },
+      ),
+      GoRoute(
+        path: placeOrder,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => CartCubit()..initData(),
+            child:PlaceOrderScreen(
+              totalPrice:state.extra as String ,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: success,
+        builder: (context, state) => SuccessScreen(),
       ),
     ],
   );

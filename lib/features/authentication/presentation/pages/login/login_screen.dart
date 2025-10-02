@@ -2,6 +2,7 @@ import 'package:bookia/core/components/app_bar/main_app_bar.dart';
 import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/components/inputs/main_text_form_field.dart';
 import 'package:bookia/core/constants/images.dart';
+import 'package:bookia/core/functions/app_regex.dart';
 import 'package:bookia/core/routes/navigation.dart';
 import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/utils/fonts.dart';
@@ -46,6 +47,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Gap(35),
               MainTextFormField(
+                validator: (value){
+                  if (value == null || value.isEmpty) {
+                    return "Please, enter a valid email";
+                  } else if (!AppRegex.isEmailValid(value)) {
+                    return "Please, enter a valid email";
+                  } else {
+                    return null;
+                  }
+                },
                 textFormFieldText: "Enter Your Email",
                 controller: emailController,
                 ispassword: false,

@@ -9,11 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 // ignore: must_be_immutable
-class PasswordResetSuccessScreen extends StatelessWidget {
-  const PasswordResetSuccessScreen({
-    super.key,
-   
-  });
+class SuccessScreen extends StatelessWidget {
+  const SuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +20,16 @@ class PasswordResetSuccessScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(AppImages.successMarkSvg, width: 200, height: 200),
+           // SvgPicture.asset(AppImages.successMarkSvg, width: 200, height: 200),
             Gap(20),
             Text(
-              "Password Reset Successfully",
+              "Oreder Placed Successfully",
               style: AppFontStyles.getSize30(fontWeight: FontWeight.w500),
             ),
             Gap(10),
             Text(
               textAlign: TextAlign.center,
-               'your password has been reset successfully',
+              'Your order will be delivered soon.Thank you for choosing our app!',
               style: AppFontStyles.getSize18(
                 fontWeight: FontWeight.w400,
                 fontColor: AppColors.darkGreyColor,
@@ -42,7 +39,7 @@ class PasswordResetSuccessScreen extends StatelessWidget {
             MainButton(
               buttonText: "Back to Login",
               onPressed: () {
-                pushAndRemoveUntil(context: context, route: AppRouter.login);
+                pushAndRemoveUntil(context: context, route: AppRouter.success);
               },
             ),
           ],

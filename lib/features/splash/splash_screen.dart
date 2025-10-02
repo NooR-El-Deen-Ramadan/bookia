@@ -1,7 +1,6 @@
 import 'package:bookia/core/constants/images.dart';
 import 'package:bookia/core/routes/navigation.dart';
 import 'package:bookia/core/routes/routes.dart';
-import 'package:bookia/core/services/local/local_helper.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 2), () {
-      var userData = LocalHelper.getUserdata();
-      if (userData != null) {
         // ignore: use_build_context_synchronously
         pushAndRemoveUntil(context: context, route: AppRouter.main);
-      } else {
-        // ignore: use_build_context_synchronously
-        pushWithReplacment(context: context, route: AppRouter.welcome);
-      }
     });
 
     super.initState();

@@ -13,8 +13,14 @@ class MainTextFormField extends StatefulWidget {
     this.maxTextLines = 1,
     this.validator,
     required this.ispassword,
+    this.readOnly = false,
+    this.suffixIcon,
+    this.onTap,
   });
   bool ispassword = false;
+  final Function()? onTap;
+  final bool readOnly;
+  final Widget? suffixIcon;
   String? Function(String?)? validator;
   int maxTextLines;
   String? textFormFieldText;
@@ -30,26 +36,30 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: widget.readOnly,
+      onTap: widget.onTap,
       obscureText: widget.ispassword && isObsecure,
       validator: widget.validator,
       controller: widget.controller,
       maxLines: widget.maxTextLines,
       style: AppFontStyles.getSize18(),
       decoration: InputDecoration(
-        suffixIcon: widget.ispassword
-            ? GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isObsecure = !isObsecure;
-                  });
-                },
-                child: Icon(
-                  isObsecure
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                ),
-              )
-            : null,
+        suffixIcon:
+            widget.suffixIcon ??
+            (widget.ispassword
+                ? GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isObsecure = !isObsecure;
+                      });
+                    },
+                    child: Icon(
+                      isObsecure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
+                  )
+                : null),
         hint: Text(
           widget.textFormFieldText ?? "",
           style: AppFontStyles.getSize18(fontColor: AppColors.greyColor),

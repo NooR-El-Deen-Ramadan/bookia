@@ -1,4 +1,5 @@
 import 'package:bookia/core/components/inputs/main_text_form_field.dart';
+import 'package:bookia/core/functions/app_regex.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/authentication/presentation/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,8 @@ class RegisterBody extends StatelessWidget {
         MainTextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
+              return "Please, enter a valid email";
+            } else if (!AppRegex.isEmailValid(cubit.emailController.text)) {
               return "Please, enter a valid email";
             } else {
               return null;
