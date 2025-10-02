@@ -1,7 +1,6 @@
 import 'package:bookia/core/components/app_bar/main_app_bar.dart';
 import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/components/inputs/main_text_form_field.dart';
-import 'package:bookia/core/constants/icons.dart';
 import 'package:bookia/core/functions/app_regex.dart';
 import 'package:bookia/core/routes/navigation.dart';
 import 'package:bookia/core/routes/routes.dart';
@@ -12,7 +11,6 @@ import 'package:bookia/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:bookia/features/cart/presentation/cubit/cart_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 class PlaceOrderScreen extends StatelessWidget {
@@ -23,58 +21,56 @@ class PlaceOrderScreen extends StatelessWidget {
     var cubit = context.read<CartCubit>();
     return BlocListener<CartCubit, CartStates>(
       listener: (context, state) {},
-      child: Form(
-        child: Scaffold(
-          key: cubit.formKey,
-          bottomNavigationBar: BlocBuilder<CartCubit, CartStates>(
-            builder: (context, state) => SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          "Total",
-                          style: AppFontStyles.getSize18(
-                            fontColor: AppColors.darkColor,
-                          ),
+      child: Scaffold(
+        bottomNavigationBar: BlocBuilder<CartCubit, CartStates>(
+          builder: (context, state) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Total",
+                        style: AppFontStyles.getSize18(
+                          fontColor: AppColors.darkColor,
                         ),
-                        Spacer(),
-                        Text(
-                          "\$ $totalPrice",
-                          style: AppFontStyles.getSize18(
-                            fontColor: AppColors.darkColor,
-                          ),
+                      ),
+                      Spacer(),
+                      Text(
+                        "\$ $totalPrice",
+                        style: AppFontStyles.getSize18(
+                          fontColor: AppColors.darkColor,
                         ),
-                      ],
-                    ),
-                    Gap(10),
-                    MainButton(
-                      buttonText: "Place Order",
-                      onPressed: () {
-                        final formState = cubit.formKey.currentState;
-                        if (formState != null && formState.validate()) {
-                          pushAndRemoveUntil(
-                            context: context,
-                            route: AppRouter.success,
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  Gap(10),
+                  MainButton(
+                    buttonText: "Place Order",
+                    onPressed: () {
+                      final formState = cubit.formKey.currentState;
+                      if (formState != null && formState.validate()) {
+                        pushAndRemoveUntil(
+                          context: context,
+                          route: AppRouter.success,
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ),
-          appBar: MainAppBar(
-            actionWidget: SvgPicture.asset(AppIcons.backIconPng),
-          ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: SingleChildScrollView(
+        ),
+        appBar: MainAppBar(),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: SingleChildScrollView(
+              child: Form(
+                key: cubit.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

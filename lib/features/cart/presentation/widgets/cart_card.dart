@@ -68,7 +68,7 @@ class CartCard extends StatelessWidget {
                       onTap: () {
                         if ((product?.itemQuantity ?? 1) <
                             (product?.itemProductStock ?? 1)) {
-                          onUpdate(product?.itemQuantity ?? 1 + 1);
+                          onUpdate((product?.itemQuantity ?? 1) + 1);
                         } else {
                           showDialoges(
                             context: context,
@@ -104,7 +104,7 @@ class CartCard extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         if ((product?.itemQuantity ?? 1) > 1) {
-                          onUpdate(product?.itemQuantity ?? 1 - 1);
+                          onUpdate((product?.itemQuantity ?? 1) - 1);
                         } else {
                           showDialoges(
                             type: DialogTypes.warning,

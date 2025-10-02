@@ -61,8 +61,9 @@ class CartRepo {
         endPoint: ApiEndpoints.updateCart,
         data: {"cart_item_id": cartItemId,"quantity":quantity},
       );
-
+log(  res.data.toString());
       if (res.statusCode == 201) {
+         log( res.data.toString());
         var data = CartResponse.fromJson(res.data);
         LocalHelper.setCart(data.data?.cartItems);
         return data;
@@ -85,7 +86,7 @@ class CartRepo {
       );
 
       if (res.statusCode == 200) {
-       
+      
         var data = CartResponse.fromJson(res.data);
         // LocalHelper.setCart(data.data?.data);
         return data;

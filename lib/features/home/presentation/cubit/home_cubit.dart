@@ -51,9 +51,7 @@ class HomeCubit extends Cubit<HomeStates> {
       var res = await WishlistRepo.removeFromWishlist(bookId: bookId);
       if (res != null) {
         emit(
-          WishListCartState(
-            message: "Book removed from wishlist successfully",
-          ),
+          WishListCartState(message: "Book removed from wishlist successfully"),
         );
       } else {
         emit(HomeErrorState(error: "Failed to remove from wishlist"));
@@ -61,11 +59,7 @@ class HomeCubit extends Cubit<HomeStates> {
     } else {
       var res = await WishlistRepo.addToWishlist(bookId: bookId);
       if (res != null) {
-        emit(
-          WishListCartState(
-            message: "Book added to wishlist successfully",
-          ),
-        );
+        emit(WishListCartState(message: "Book added to wishlist successfully"));
       } else {
         emit(HomeErrorState(error: "Failed to add to wishlist"));
       }
@@ -75,12 +69,9 @@ class HomeCubit extends Cubit<HomeStates> {
   Future<void> addToCart(int bookId) async {
     emit(HomeLoadingState());
 
-    var res = await CartRepo.removeFromCart(cartItemId: bookId);
+    var res = await CartRepo.addToCart(bookId: bookId);
     if (res != null) {
-      emit(WishListCartState(
-          message: "Added to Cart successfully",
-        ),
-      );
+      emit(WishListCartState(message: "Added to Cart successfully"));
     } else {
       emit(HomeErrorState(error: "Failed to remove from Cart"));
     }

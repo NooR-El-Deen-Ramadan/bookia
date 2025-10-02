@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookia/core/services/local/local_helper.dart';
 import 'package:bookia/features/cart/data/models/cart_response/cart_response.dart';
 import 'package:bookia/features/cart/data/repo/cart_repo.dart';
@@ -48,6 +50,7 @@ class CartCubit extends Cubit<CartStates> {
       if (value == null) {
         emit(CartErrorState(errorMessage: "Failed to Update Cart"));
       } else {
+        log(  value.data.toString());
         cartResponse = value;
         emit(CartSuccessState());
       }

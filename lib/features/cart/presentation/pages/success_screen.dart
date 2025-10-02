@@ -20,7 +20,7 @@ class SuccessScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           // SvgPicture.asset(AppImages.successMarkSvg, width: 200, height: 200),
+           SvgPicture.asset(AppImages.successMarkSvg, width: 200, height: 200),
             Gap(20),
             Text(
               "Oreder Placed Successfully",

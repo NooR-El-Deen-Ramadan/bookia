@@ -2,6 +2,7 @@ import 'package:bookia/core/components/app_bar/main_app_bar.dart';
 import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/constants/icons.dart';
 import 'package:bookia/core/functions/show_dialoges.dart';
+import 'package:bookia/core/routes/navigation.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
@@ -24,30 +25,26 @@ class BookDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state) => {
-        if (state is HomeLoadingState)
-          {showLoadingDialog(context: context)}
-        else if (state is HomeSuccessState)
-          {
-            // dismiss loading first
-            Navigator.of(context, rootNavigator: true).pop(),
-            // ensures dialog is closed
-            showDialoges(
-              context: context,
-              message: "Book added to wishlist successfully",
-              type: DialogTypes.success,
-            ),
-          }
-        else if (state is HomeErrorState)
-          {
-            if (Navigator.canPop(context))
-              {Navigator.of(context, rootNavigator: true).pop()},
-            showDialoges(
-              context: context,
-              type: DialogTypes.error,
-              message: "can't add book to wishlist",
-            ),
-          },
+      listener: (context, state) {
+        if (state is HomeLoadingState) {
+          showLoadingDialog(context: context);
+        } else if (state is WishListCartState) {
+          // dismiss loading first
+          pop(context);
+          // ensures dialog is closed
+          showDialoges(
+            context: context,
+            message: "Book added to wishlist successfully",
+            type: DialogTypes.success,
+          );
+        } else if (state is HomeErrorState) {
+          pop(context);
+          showDialoges(
+            context: context,
+            type: DialogTypes.error,
+            message: "can't add book to wishlist",
+          );
+        }
       },
       builder: (context, state) {
         var cubit = context.read<HomeCubit>();
