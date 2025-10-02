@@ -1,8 +1,11 @@
 import 'package:bookia/core/components/buttons/main_button.dart';
 import 'package:bookia/core/constants/animation.dart';
 import 'package:bookia/core/constants/icons.dart';
+import 'package:bookia/core/routes/navigation.dart';
+import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/utils/colors.dart';
 import 'package:bookia/core/utils/fonts.dart';
+import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:bookia/features/wishlist/presentation/cubit/wishlist_states.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -37,7 +40,6 @@ class WishlistScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                   
                     Text(
                       "No Items In Wishlist",
                       style: AppFontStyles.getSize24(),
@@ -114,13 +116,20 @@ class WishlistScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: MainButton(
-                                  borderRadius: 4,
-                                  buttonText: "Add To Cart",
-                                  onPressed: () {},
-                                  height: 40,
-                                ),
+                              IconButton(
+                                color: AppColors.primaryColor,
+                                icon: Icon(Icons.arrow_forward_ios_outlined),
+                                onPressed: () {
+                                  pushWithoutReplacment(
+                                    context: context,
+                                    route: AppRouter.bookDetails,
+                                    extra: {
+                                      "data": cubit
+                                          .wishlistItems[index], // Product object
+                                      "source": "wishlist", // source identifier
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),

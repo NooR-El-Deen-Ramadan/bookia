@@ -16,5 +16,9 @@ class ApiEndpoints {
   static const addToWishlist = "/add-to-wishlist";
   static const removeFromWishlist = "/remove-from-wishlist";
 
-
+  //cart
+  static const cart = "/cart";
+  static const addToCart = "/add-to-cart";
+  static const removeFromCart = "/remove-from-cart";
+  static const updateCart = "/update-cart";
 }

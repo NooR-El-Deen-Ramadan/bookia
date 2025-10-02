@@ -23,17 +23,15 @@ class BookDetailsScreen extends StatelessWidget {
   final String source;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeCubit, HomeStates>(
+    return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) => {
         if (state is HomeLoadingState)
           {showLoadingDialog(context: context)}
-        else if (state is AddToWishlistSuccessState)
+        else if (state is HomeSuccessState)
           {
             // dismiss loading first
-            Navigator.of(
-              context,
-              rootNavigator: true,
-            ).pop(), // ensures dialog is closed
+            Navigator.of(context, rootNavigator: true).pop(),
+            // ensures dialog is closed
             showDialoges(
               context: context,
               message: "Book added to wishlist successfully",
@@ -42,7 +40,8 @@ class BookDetailsScreen extends StatelessWidget {
           }
         else if (state is HomeErrorState)
           {
-            Navigator.of(context, rootNavigator: true).pop(),
+            if (Navigator.canPop(context))
+              {Navigator.of(context, rootNavigator: true).pop()},
             showDialoges(
               context: context,
               type: DialogTypes.error,
@@ -50,88 +49,104 @@ class BookDetailsScreen extends StatelessWidget {
             ),
           },
       },
-      child: Scaffold(
-        bottomNavigationBar: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "\$ ${product.price}",
-                    style: AppFontStyles.getSize24(
-                      fontWeight: FontWeight.w500,
-
-                      fontColor: AppColors.darkColor,
-                    ),
-                  ),
-                ),
-
-                Expanded(
-                  child: MainButton(
-                    borderRadius: 8,
-
-                    height: 50,
-                    buttonText: "Add To Cart",
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        appBar: MainAppBar(
-          actionWidget: GestureDetector(
-            onTap: () {
-              context.read<HomeCubit>().addToWishlist(product.id ?? 0);
-            },
-            child: SvgPicture.asset(AppIcons.bookmarkIconSvg),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Center(
-              child: Column(
+      builder: (context, state) {
+        var cubit = context.read<HomeCubit>();
+        return Scaffold(
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
                 children: [
-                  Hero(
-                    tag: "${product.id}-$source",
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: product.image ?? " ",
-                        width: 280,
+                  Expanded(
+                    child: Text(
+                      "\$ ${product.price}",
+                      style: AppFontStyles.getSize24(
+                        fontWeight: FontWeight.w500,
+
+                        fontColor: AppColors.darkColor,
                       ),
                     ),
                   ),
-                  Gap(10),
-                  Text(
-                    product.name ?? '',
-                    style: AppFontStyles.getSize24(
-                      fontWeight: FontWeight.w500,
-                      fontColor: AppColors.darkColor,
+
+                  Expanded(
+                    child: MainButton(
+                      borderRadius: 8,
+
+                      height: 50,
+                      buttonText: "Add To Cart",
+                      onPressed: () {
+                        cubit.addToCart(product.id ?? 0);
+                      },
                     ),
-                  ),
-                  Gap(10),
-                  Text(
-                    product.category ?? '',
-                    style: AppFontStyles.getSize18(
-                      fontColor: AppColors.primaryColor,
-                    ),
-                  ),
-                  Gap(20),
-                  Text(
-                    product.description ?? '',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
             ),
           ),
-        ),
-      ),
+          appBar: MainAppBar(
+            actionWidget: GestureDetector(
+              onTap: () {
+                cubit.addRemoveWishlist(product.id ?? 0);
+              },
+              child: SvgPicture.asset(
+                AppIcons.bookmarkIconSvg,
+                colorFilter: ColorFilter.mode(
+                  cubit.isWishlisted(product.id ?? 0)
+                      ? AppColors.primaryColor
+                      : AppColors.darkColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: [
+                    Hero(
+                      tag: "${product.id}-$source",
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: product.image ?? " ",
+                          width: 280,
+                        ),
+                      ),
+                    ),
+                    Gap(10),
+                    Text(
+                      product.name ?? '',
+                      style: AppFontStyles.getSize24(
+                        fontWeight: FontWeight.w500,
+                        fontColor: AppColors.darkColor,
+                      ),
+                    ),
+                    Gap(10),
+                    Text(
+                      product.category ?? '',
+                      style: AppFontStyles.getSize18(
+                        fontColor: AppColors.primaryColor,
+                      ),
+                    ),
+                    Gap(20),
+                    Text(
+                      product.description ?? '',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

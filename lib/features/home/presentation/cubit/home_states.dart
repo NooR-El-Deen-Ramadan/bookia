@@ -7,9 +7,11 @@ class HomeLoadingState extends HomeStates {}
 class HomeSuccessState extends HomeStates {}
 
 //wishList
-class AddToWishlistSuccessState extends HomeStates {}
+class WishListCartState extends HomeStates {
+  final String message;
 
-
+  WishListCartState({required this.message});
+}
 
 class HomeErrorState extends HomeStates {
   final String error;

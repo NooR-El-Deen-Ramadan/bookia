@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:bookia/features/authentication/data/models/response/auth_response/data.dart';
+import 'package:bookia/features/cart/data/models/cart_response/cart_item.dart';
+import 'package:bookia/features/home/data/models/books_response/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalHelper {
   static late SharedPreferences pref;
   static String userDataKey = "user_data";
+  static String wishlistKey = "wishlist";
+  static String cartKey = "cart";
 
   static Future<void> init() async {
     pref = await SharedPreferences.getInstance();
@@ -31,6 +35,46 @@ class LocalHelper {
     //parse map to object
     var userData = UserData.fromJson(userObjectJson);
     return userData;
+  }
+
+  //wishList
+  static setWishlist(List<Product>? books) async {
+    if (books == null) {
+      return;
+    }
+    //parse objects to json(map) list
+    //encode map to string
+    var listOfStrings = books.map((book) => jsonEncode(book.toJson())).toList();
+
+    //save to shared pref
+    await pref.setStringList(wishlistKey, listOfStrings);
+  }
+
+  static getWishlist() async {
+    //get string from shared pref
+    var source = pref.getStringList(wishlistKey);
+    //decode string to map
+    if (source == null) {
+      return null;
+    }
+    var listOfObjects = source
+        .map((string) => Product.fromJson(jsonDecode(string)))
+        .toList();
+
+    return listOfObjects;
+  }
+
+  //cart
+  static setCart(List<CartItem>? books) async {
+    if (books == null) {
+      return;
+    }
+    //parse objects to json(map) list
+    //encode map to string
+    var listOfStrings = books.map((book) => jsonEncode(book.toJson())).toList();
+
+    //save to shared pref
+    await pref.setStringList(cartKey, listOfStrings);
   }
 
   //string

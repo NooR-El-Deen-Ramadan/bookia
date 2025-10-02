@@ -3,22 +3,22 @@ import 'dart:developer';
 import 'package:bookia/core/services/api/api_endpoints.dart';
 import 'package:bookia/core/services/api/api_provider.dart';
 import 'package:bookia/core/services/local/local_helper.dart';
-import 'package:bookia/features/wishlist/data/models/wish_list_response/wish_list_response.dart';
+import 'package:bookia/features/cart/data/models/cart_response/cart_response.dart';
 import 'package:dio/dio.dart';
 
-class WishlistRepo {
-  static Future<WishListResponse?> addToWishlist({required int bookId}) async {
+class CartRepo {
+  static Future<CartResponse?> addToCart({required int bookId}) async {
     try {
       final userData = await LocalHelper.getUserdata();
       var res = await DioProvider.post(
         headers: {"Authorization": "Bearer ${userData.token}"},
-        endPoint: ApiEndpoints.addToWishlist,
+        endPoint: ApiEndpoints.addToCart,
         data: {"product_id": bookId},
       );
 
       if (res.statusCode == 200) {
-        var data = WishListResponse.fromJson(res.data);
-        LocalHelper.setWishlist(data.data?.data);
+        var data = CartResponse.fromJson(res.data);
+        LocalHelper.setCart(data.data?.cartItems);
         return data;
       } else {
         return null;
@@ -30,20 +30,18 @@ class WishlistRepo {
     }
   }
 
-  static Future<WishListResponse?> removeFromWishlist({
-    required int bookId,
-  }) async {
+  static Future<CartResponse?> removeFromCart({required int cartItemId}) async {
     try {
       final userData = await LocalHelper.getUserdata();
       var res = await DioProvider.post(
         headers: {"Authorization": "Bearer ${userData.token}"},
-        endPoint: ApiEndpoints.removeFromWishlist,
-        data: {"product_id": bookId},
+        endPoint: ApiEndpoints.removeFromCart,
+        data: {"cart_item_id": cartItemId},
       );
 
       if (res.statusCode == 200) {
-        var data = WishListResponse.fromJson(res.data);
-        LocalHelper.setWishlist(data.data?.data);
+        var data = CartResponse.fromJson(res.data);
+        LocalHelper.setCart(data.data?.cartItems);
         return data;
       } else {
         return null;
@@ -54,18 +52,18 @@ class WishlistRepo {
     }
   }
 
-  static Future<WishListResponse?> getWishlist() async {
+  static Future<CartResponse?> getCart() async {
     try {
       final userData = await LocalHelper.getUserdata();
       var res = await DioProvider.get(
         headers: {"Authorization": "Bearer ${userData.token}"},
-        endPoint: ApiEndpoints.wishlist,
+        endPoint: ApiEndpoints.cart,
       );
 
-      if (res.statusCode == 200) {
+      if (res.statusCode == 201) {
         log(userData.token);
-        var data = WishListResponse.fromJson(res.data);
-        LocalHelper.setWishlist(data.data?.data);
+        var data = CartResponse.fromJson(res.data);
+        // LocalHelper.setCart(data.data?.data);
         return data;
       } else {
         return null;

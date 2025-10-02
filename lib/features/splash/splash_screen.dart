@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         pushWithReplacment(context: context, route: AppRouter.welcome);
       }
     });
-    
+
     super.initState();
   }
 

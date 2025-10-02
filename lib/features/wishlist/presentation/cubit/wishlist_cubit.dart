@@ -28,7 +28,7 @@ class WishlistCubit extends Cubit<WishlistStates> {
     }
   }
 
-  Future<void> removeFromWishlist( {required int bookId}) async {
+  Future<void> removeFromWishlist({required int bookId}) async {
     emit(WishlistLoadingState());
     var res = await WishlistRepo.removeFromWishlist(bookId: bookId);
     if (res == null) {

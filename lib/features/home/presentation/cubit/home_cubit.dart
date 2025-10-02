@@ -1,3 +1,5 @@
+import 'package:bookia/core/services/local/local_helper.dart';
+import 'package:bookia/features/cart/data/repo/cart_repo.dart';
 import 'package:bookia/features/home/data/models/books_response/books_response.dart';
 import 'package:bookia/features/home/data/models/books_response/product.dart';
 import 'package:bookia/features/home/data/models/slider_response/slider.dart';
@@ -13,6 +15,11 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Product> bestSellers = [];
   List<Product> newArrivals = [];
   List<Product> allProducts = [];
+  List<Product> localWishlist = [];
+
+  Future<void> loadWishlist() async {
+    localWishlist = await LocalHelper.getWishlist() ?? [];
+  }
 
   void getHomeData() async {
     emit(HomeLoadingState());
@@ -37,13 +44,49 @@ class HomeCubit extends Cubit<HomeStates> {
     }
   }
 
-  Future<void> addToWishlist(int bookId) async {
+  Future<void> addRemoveWishlist(int bookId) async {
     emit(HomeLoadingState());
-    var res = await WishlistRepo.addToWishlist(bookId: bookId);
-    if (res != null) {
-      emit(HomeSuccessState());
+
+    if (isWishlisted(bookId)) {
+      var res = await WishlistRepo.removeFromWishlist(bookId: bookId);
+      if (res != null) {
+        emit(
+          WishListCartState(
+            message: "Book removed from wishlist successfully",
+          ),
+        );
+      } else {
+        emit(HomeErrorState(error: "Failed to remove from wishlist"));
+      }
     } else {
-      emit(HomeErrorState(error: "Failed to add to wishlist"));
+      var res = await WishlistRepo.addToWishlist(bookId: bookId);
+      if (res != null) {
+        emit(
+          WishListCartState(
+            message: "Book added to wishlist successfully",
+          ),
+        );
+      } else {
+        emit(HomeErrorState(error: "Failed to add to wishlist"));
+      }
     }
+  }
+
+  Future<void> addToCart(int bookId) async {
+    emit(HomeLoadingState());
+
+    var res = await CartRepo.removeFromCart(cartItemId: bookId);
+    if (res != null) {
+      emit(WishListCartState(
+          message: "Added to Cart successfully",
+        ),
+      );
+    } else {
+      emit(HomeErrorState(error: "Failed to remove from Cart"));
+    }
+  }
+
+  bool isWishlisted(int bookId) {
+    return localWishlist.any((item) => item.id == bookId);
   }
 }
